@@ -1,0 +1,6 @@
+Student = "George Smith"
+
+if Student == "George Smith":
+	grade = (CallumBlanchard.Grade + OllyPE.Grade)/2
+
+return grade
