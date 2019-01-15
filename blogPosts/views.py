@@ -6,9 +6,17 @@ from .models import BlogPost
 
 def home(request):
     latest_blog_posts = BlogPost.objects.order_by('-pub_date')[:10]
-    return render(request, 'blogPosts/home.html', {'latest_blog_posts': latest_blog_posts})
+    context = {
+        'title': "Home",
+        'latest_blog_posts': latest_blog_posts,
+    }
+    return render(request, 'blogPosts/home.html', context=context)
 
 
 def detail(request, post_id):
     post = get_object_or_404(BlogPost, pk=post_id)
-    return render(request, 'blogPosts/detail.html', {'post': post})
+    context = {
+        'title': post.post_title,
+        'post': post,
+    }
+    return render(request, 'blogPosts/detail.html', context=context)
