@@ -1,4 +1,17 @@
 {% extends "blogPosts/base.html" %}
 {% block content %}
-    <h1>This is the Homepage.</h1>
+    <h1>DS_Blog</h1>
+{% if latest_blog_posts %}
+    <ul>
+    {% for post in latest_blog_posts %}
+        <li>
+            <h1><a href="{% url 'blogPosts:detail' post.id %}">{{ post.post_title }}</a></h1>
+            <h2>{{ post.subtitle }}</h2>
+            <h4>Posted By {{ post.author }} on {{ post.pub_date }}</h4>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
 {% endblock content %}
