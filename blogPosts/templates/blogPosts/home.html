@@ -2,9 +2,15 @@
 {% block content %}
 {% if latest_blog_posts %}
     {% for post in latest_blog_posts %}
-        <h1><a href="{% url 'blogPosts:detail' post.id %}">{{ post.post_title }}</a></h1>
-        <p>Posted By {{ post.author }} on {{ post.pub_date }}</p>
-        <h3>{{ post.subtitle }}</h3>
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <small class="text-muted">Posted By {{ post.author }} on {{ post.pub_date }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'blogPosts:detail' post.id %}">{{ post.post_title }}</a></h2>
+                <p class="article-content">{{ post.subtitle }}</p>
+            </div>
+        </article>
     {% endfor %}
 {% else %}
     <p>No polls are available.</p>

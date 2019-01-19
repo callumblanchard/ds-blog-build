@@ -1,5 +1,9 @@
 {% extends 'blogPosts/base.html' %}
 {% block content %}
-    <h1>{{ post.post_title }}</h1>
-    <p>{{ post.body }}</p>
+    <article class="media content-section">
+        <div class="media-body">
+            <h1 class="article-title">{{ post.post_title }}</h1>
+            <p class="article-content">{{ post.body }}</p>
+        </div>
+    </article>
 {% endblock content %}

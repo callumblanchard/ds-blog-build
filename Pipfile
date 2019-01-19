@@ -9,6 +9,8 @@ pylint = "*"
 [packages]
 pytz = "==2018.7"
 Django = "==2.1.5"
+django-crispy-forms = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"

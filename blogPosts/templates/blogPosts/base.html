@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'blogPosts/main.css' %}">
 
+    <link rel="stylesheet" type="text/css" href="{% static 'blogPosts/main.css' %}">
+
     {% if title %}
     <title>DS Blog - {{ title }}</title>
     {% else %}
     <title>DS Blog</title>
     {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header class="site-header">
@@ -28,12 +29,16 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link" href="/about">About</a>
+                    <a class="nav-item nav-link" href="#">About</a>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#">Login</a>
-                    <a class="nav-item nav-link" href="#">Register</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
