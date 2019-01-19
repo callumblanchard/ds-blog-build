@@ -1,6 +1,6 @@
 body {
-  background: #fafafa;
-  color: #333333;
+  background: #ffffff;
+  color: #ffffff;
   margin-top: 5rem;
 }
 
@@ -12,20 +12,11 @@ ul {
   margin: 0;
 }
 
+a {
+color: #444444}
+
 .bg-steel {
   background-color: #5f788a;
-}
-
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
-}
-
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
-}
-
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
 }
 
 .content-section {
