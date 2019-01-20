@@ -1,6 +1,6 @@
 body {
   background: #ffffff;
-  color: #ffffff;
+  color: #3d3d3d;
   margin-top: 5rem;
 }
 
@@ -43,6 +43,7 @@ a.article-title:hover {
 .article-img {
   height: 65px;
   width: 65px;
+  object-fit: cover;
   margin-right: 16px;
 }
 
@@ -66,6 +67,7 @@ a.article-title:hover {
 .account-img {
   height: 125px;
   width: 125px;
+  object-fit: cover;
   margin-right: 20px;
   margin-bottom: 16px;
 }
