@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 
+
 class BlogPost(models.Model):
     post_title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=400, default="Subtitle")
