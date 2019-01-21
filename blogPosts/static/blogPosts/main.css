@@ -27,6 +27,13 @@ color: #444444}
   margin-bottom: 20px;
 }
 
+.sidebar-content {
+  background: #ffffff;
+  padding: 20px 20px;
+  border-bottom: 1px solid #dddddd;
+  border-radius: 3px;
+}
+
 .article-title {
   color: #444444;
 }
