@@ -2,3 +2,5 @@ django
 pytz
 django-crispy-forms
 Pillow
+mistune
+pygments

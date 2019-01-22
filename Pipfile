@@ -12,6 +12,8 @@ pytz = "*"
 django-crispy-forms = "*"
 Django = "*"
 Pillow = "*"
+mistune = "*"
+pygments = "*"
 
 [requires]
 python_version = "3.6"
