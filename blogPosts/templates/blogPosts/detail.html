@@ -10,7 +10,7 @@
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blogPosts:post-delete' post.id %}">Delete</a>
                 {% endif %}
             </div>
-            <h1 class="article-title">{{ post.post_title }}</h1>
+            <h1 class="article-title-detail">{{ post.post_title }}</h1>
             <p class="article-content">{{ post.body }}</p>
         </div>
     </article>

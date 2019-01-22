@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
+.h2 {
+  margin-bottom: 0;
+}
+
 ul {
   margin: 0;
 }
@@ -25,7 +29,7 @@ color: #444444}
   padding: 10px 20px;
   border: 0;
   border-radius: 3px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .sidebar-content {
@@ -37,6 +41,11 @@ color: #444444}
 
 .article-title {
   color: #444444;
+}
+
+.article-title-detail {
+  color: #444444;
+  margin-bottom: 2rem!important;
 }
 
 a.article-title:hover {
