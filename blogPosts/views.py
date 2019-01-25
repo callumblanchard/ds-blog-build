@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -8,7 +8,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .models import BlogPost
+from .models import BlogPost, Comment
+from .forms import CommentForm
+
 
 class PostListView(ListView):
     model = BlogPost
@@ -20,6 +22,7 @@ class PostListView(ListView):
         context = super(PostListView, self).get_context_data(**kwargs)
         context['title'] = "Home"
         return context
+
 
 class PostDetailView(DetailView):
     model = BlogPost
@@ -33,6 +36,7 @@ class PostDetailView(DetailView):
         context['title'] = post.post_title
         return context
 
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     fields = [
@@ -44,6 +48,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = BlogPost
@@ -78,3 +83,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+
+# def add_comment(request, pk):
+#     post = get_object_or_404(BlogPost, pk=pk)
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.post = post
+#             comment.save()
+#             return redirect('post_detail', pk=post.pk)
+#     else:
+#         form = CommentForm()
+#     return render(request, 'comment_form.html', {'form': form})
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = [
+        'text',
+    ]
+
+    def form_valid(self, form):
+        form.instance.username = self.request.user
+        form.instance.post = # HOW DO WE GET THE BlogPost Model in here?
+        return super().form_valid(form)

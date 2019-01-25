@@ -15,4 +15,16 @@
             {{ post.body | markdown | safe }}
         </div>
     </article>
+    <div class="comment-section">
+        <h1>Comments</h1>
+        <a class="btn btn-light" href="{% url 'blogPosts:add-comment' post.id %}">Add Comment</a>
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <small class="text-muted">{{ comment.username }} on {{ comment.pub_date }}</small>
+                <p>{{ comment.text }}</p>
+            </div>
+        {% empty %}
+            <p class="text-muted">There are no comments on this post yet.</p>
+        {% endfor %}
+    </div>
 {% endblock content %}
