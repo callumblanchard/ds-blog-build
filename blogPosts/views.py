@@ -98,6 +98,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #         form = CommentForm()
 #     return render(request, 'comment_form.html', {'form': form})
 
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = [
@@ -106,5 +107,5 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.username = self.request.user
-        form.instance.post = # HOW DO WE GET THE BlogPost Model in here?
+        form.instance.post = ""# HOW DO WE GET THE BlogPost Model in here?
         return super().form_valid(form)
