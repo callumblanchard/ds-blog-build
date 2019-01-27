@@ -10,7 +10,7 @@ from django.views.generic import (
 )
 from .models import BlogPost, Comment
 from .forms import CommentForm
-
+from django.contrib import messages
 
 class PostListView(ListView):
     model = BlogPost
@@ -33,9 +33,41 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = self.get_object()
+        context['is_preview'] = False
         context['title'] = post.post_title
         return context
 
+class PostPreviewView(LoginRequiredMixin, PostDetailView):
+    template_name = 'blogPosts/preview.html'
+
+    http_method_names = ['post']
+
+    def http_method_not_allowed(self, request, *args, **kwargs):
+        messages.warning(request, f'You must be creating or updating a post in order to preview!')
+        post=self.get_object()
+        post_id = getattr(post, 'pk')
+        return redirect('blogPosts:post-detail', post_id=post_id)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        if not context['post']:
+            setattr(context['post'], 'id', 0)
+        fields = [
+            'post_title',
+            'subtitle',
+            'body',
+        ]
+        for key in fields:
+            setattr(context['post'], key, request.POST[key])
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostPreviewView, self).get_context_data(**kwargs)
+        post = self.get_object()
+        context['is_preview'] = True
+        context['title'] = f'Preview of "{post.post_title}"'
+        return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
