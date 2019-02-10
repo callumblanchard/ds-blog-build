@@ -9,10 +9,8 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                {% if post %}
-                <button class="btn btn-outline-success" formaction="{% url 'blogPosts:post-preview' post.id %}"  type="submit">Preview</button>
-                {% endif %}
-                <button class="btn btn-outline-info" type="submit">Post</button>
+                <button class="btn btn-outline-success" type="submit">Save & Preview</button>
+                <button class="btn btn-outline-info" type="submit">Publish</button>
             </div>
         </form>
     </div>

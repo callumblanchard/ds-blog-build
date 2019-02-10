@@ -10,6 +10,7 @@ class BlogPost(models.Model):
     pub_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField(default="Body")
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.post_title

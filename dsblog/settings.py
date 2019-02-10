@@ -25,7 +25,20 @@ SECRET_KEY = 's9=i0tfv14^om@71&1vudh3h@5#l1@$e0n2p2i&yliah!cm5=w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lza3lkdjfc.execute-api.eu-west-2.amazonaws.com']
+
+# static s3 files
+AWS_STORAGE_BUCKET_NAME = 'dsblog-files-static'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3-eu-west-2.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+
+AWS_DEFAULT_ACL = None
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Application definition
@@ -40,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
