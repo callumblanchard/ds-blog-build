@@ -25,7 +25,7 @@ SECRET_KEY = 's9=i0tfv14^om@71&1vudh3h@5#l1@$e0n2p2i&yliah!cm5=w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lza3lkdjfc.execute-api.eu-west-2.amazonaws.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','lza3lkdjfc.execute-api.eu-west-2.amazonaws.com']
 
 # static s3 files
 AWS_STORAGE_BUCKET_NAME = 'dsblog-files-static'
