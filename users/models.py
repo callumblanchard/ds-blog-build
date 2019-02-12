@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+import requests
 
 
 class Profile(models.Model):
@@ -12,10 +13,11 @@ class Profile(models.Model):
 
     def save(self):
         super().save()
-
-        img = Image.open(self.profile_image.path)
+'''
+        img = Image.open(requests.get(self.profile_image.url, stream=True).raw)
 
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
             img.thumbnail(output_size)
-            img.save(self.profile_image.path)
+            img.save(self.profile_image.url)
+'''
