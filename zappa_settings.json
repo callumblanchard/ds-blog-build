@@ -1,7 +1,7 @@
 {
     "dev": {
         "aws_region": "eu-west-2",
-        "django_settings": "dsblog.settings",
+        "django_settings": "dsblog.dev_settings",
         "profile_name": "default",
         "project_name": "ds-blog-build",
         "runtime": "python3.6",
