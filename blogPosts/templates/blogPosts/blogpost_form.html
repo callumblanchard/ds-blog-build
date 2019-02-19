@@ -10,7 +10,11 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-success" type="submit">Save & Preview</button>
-                <button class="btn btn-outline-info" type="submit">Publish</button>
+                {% if is_published %}
+                <button name="is_published" value=0 class="btn btn-outline-info" type="submit">Unpublish</button>
+                {% else %}
+                <button name="is_published" value=1 class="btn btn-outline-info" type="submit">Publish</button>
+                {% endif %}
             </div>
         </form>
     </div>

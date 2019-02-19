@@ -50,3 +50,4 @@ wrapt==1.11.1
 wsgi-request-logger==0.4.6
 yarg==0.1.9
 zappa==0.47.1
+mysqlclient==1.4.2

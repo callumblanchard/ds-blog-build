@@ -11,6 +11,17 @@ from django.views.generic import (
 from .models import BlogPost, Comment
 from .forms import CommentForm
 from django.contrib import messages
+from django.utils import timezone
+
+class FormPublishedMixin(object):
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        postRequest = self.request.POST
+        if 'is_published' in postRequest:
+            form.instance.is_published = postRequest['is_published']
+            if postRequest['is_published']:
+                form.instance.pub_date = timezone.now()
+        return super().form_valid(form)
 
 class PostListView(ListView):
     model = BlogPost
@@ -69,7 +80,7 @@ class PostPreviewView(LoginRequiredMixin, PostDetailView):
         context['title'] = f'Preview of "{post.post_title}"'
         return context
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, FormPublishedMixin, CreateView):
     model = BlogPost
     fields = [
         'post_title',
@@ -77,12 +88,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         'body',
     ]
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(PostCreateView, self).get_context_data(**kwargs)
+        context['is_published'] = False
+        return context
 
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormPublishedMixin, UpdateView):
     model = BlogPost
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
@@ -92,9 +104,11 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         'body',
     ]
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(PostUpdateView, self).get_context_data(**kwargs)
+        post = self.get_object()
+        context['is_published'] = post.is_published
+        return context
 
     def test_func(self):
         post = self.get_object()
