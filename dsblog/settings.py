@@ -36,16 +36,22 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 AWS_DEFAULT_ACL = None
 
+STATIC_ROOT= os.path.join(BASE_DIR, 'static')
+#''' <- COMMENT/UNCOMMENT TO TOGGLE BETWEEN LOCAL STATIC AND HOSTED STATIC
+STATIC_URL = '/static/'
+'''
 STATICFILES_LOCATION = 'static'
 STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+#'''
 
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+
+AUTH_PROFILE_MODULE = "users.Profile"
 
 # Application definition
 
@@ -60,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    #'zappa_django_utils',
 ]
 
 MIDDLEWARE = [

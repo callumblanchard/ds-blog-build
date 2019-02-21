@@ -6,13 +6,13 @@ from .models import Profile
 
 @login_required
 def profile(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
+    userprofile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(
             request.POST,
             request.FILES,
-            instance=profile
+            instance=userprofile
         )
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
@@ -21,7 +21,7 @@ def profile(request):
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=profile)
+        p_form = ProfileUpdateForm(instance=userprofile)
 
     context = {
         'u_form': u_form,
