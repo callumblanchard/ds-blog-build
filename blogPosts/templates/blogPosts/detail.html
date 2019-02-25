@@ -8,12 +8,12 @@
                 <small class="text-muted">Posted By {{ post.author }} on {{ post.pub_date|date:"d F, Y" }}</small>
                 {% if post.author == user %}
                     {% if post.is_published %}
-                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.id %}">Unpublish</a>
+                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Unpublish</a>
                     {% else %}
-                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.id %}">Publish</a>
+                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Publish</a>
                     {% endif %}
-                    <a class="btn btn-outline-secondary btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.id %}">Update</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blogPosts:post-delete' post.id %}">Delete</a>
+                    <a class="btn btn-outline-secondary btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blogPosts:post-delete' post.slug %}">Delete</a>
                 {% endif %}
             </div>
             <h1 class="article-title-detail">{{ post.post_title }}</h1>
@@ -22,7 +22,7 @@
     </article>
     <div class="comment-section">
         <h1>Comments</h1>
-        <a class="btn btn-light" href="{% url 'blogPosts:add-comment' post.id %}">Add Comment</a>
+        <a class="btn btn-light" href="{% url 'blogPosts:add-comment' post.slug %}">Add Comment</a>
         {% for comment in post.comments.all %}
             <div class="comment">
                 <small class="text-muted">{{ comment.username }} on {{ comment.pub_date }}</small>

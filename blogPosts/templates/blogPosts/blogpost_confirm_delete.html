@@ -9,7 +9,7 @@
             </fieldset>
             <div>
                 <button class="btn btn-outline-danger" type="submit">Throw it into the fire, Frodo!</button>
-                <a class="btn btn-outline-secondary" href="{% url 'blogPosts:post-detail' post.id %}">Cancel</a>
+                <a class="btn btn-outline-secondary" href="{% url 'blogPosts:post-detail' post.slug %}">Cancel</a>
             </div>
         </form>
     </div>
