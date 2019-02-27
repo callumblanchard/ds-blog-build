@@ -12,6 +12,10 @@ from .models import BlogPost, Comment
 from .forms import CommentForm
 from django.contrib import messages
 from django.utils import timezone
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+
 
 class FormPublishedMixin(object):
     def form_valid(self, form):
@@ -22,6 +26,7 @@ class FormPublishedMixin(object):
             if postRequest['is_published']:
                 form.instance.pub_date = timezone.now()
         return super().form_valid(form)
+
 
 class PostListView(ListView):
     model = BlogPost
@@ -44,9 +49,9 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = self.get_object()
-        context['is_preview'] = False
         context['title'] = post.post_title
         return context
+
 
 class PostPreviewView(LoginRequiredMixin, PostDetailView):
     template_name = 'blogPosts/preview.html'
@@ -79,6 +84,7 @@ class PostPreviewView(LoginRequiredMixin, PostDetailView):
         context['is_preview'] = True
         context['title'] = f'Preview of "{post.post_title}"'
         return context
+
 
 class PostCreateView(LoginRequiredMixin, FormPublishedMixin, CreateView):
     model = BlogPost
@@ -155,3 +161,28 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.username = self.request.user
         form.instance.post = ""# HOW DO WE GET THE BlogPost Model in here?
         return super().form_valid(form)
+
+
+class PostPublishAPIToggle(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, slug=None, format=None):
+        # slug = self.kwargs.get("slug")
+        obj = get_object_or_404(BlogPost, slug=slug)
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        updated = False
+        published = False
+        if user.is_authenticated:
+            if obj.is_published:
+                published = False
+            else:
+                published = True
+            BlogPost.objects.filter(slug=slug).update(is_published=published)
+            updated = True
+        data = {
+            "updated": updated,
+            "published": published
+        }
+        return Response(data)

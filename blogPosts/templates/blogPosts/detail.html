@@ -7,11 +7,17 @@
             <div class="article-metadata">
                 <small class="text-muted">Posted By {{ post.author }} on {{ post.pub_date|date:"d F, Y" }}</small>
                 {% if post.author == user %}
-                    {% if post.is_published %}
-                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Unpublish</a>
-                    {% else %}
-                    <a class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Publish</a>
-                    {% endif %}
+                    <a id="btn-publish" 
+                        class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4"
+                        data-href="{{ post.get_publish_url }}"
+                        data-published="{{ post.is_published }}"
+                        href="{% url 'blogPosts:post-update' post.slug %}">
+                        {% if post.is_published %}
+                            Unpublish
+                        {% else %}
+                            Publish
+                        {% endif %}
+                    </a>
                     <a class="btn btn-outline-secondary btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Update</a>
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blogPosts:post-delete' post.slug %}">Delete</a>
                 {% endif %}
@@ -33,3 +39,37 @@
         {% endfor %}
     </div>
 {% endblock content %}
+
+<script>
+{% block jquery %}
+function updateText(btn, newText) {
+    btn.text(newText);
+}
+
+$('#btn-publish').on('click', (e) => {
+    e.preventDefault();
+    const this_ = $(this);
+    const likeUrl = this_.attr('data-href');
+    console.log(this_);
+    $.ajax({
+        url: likeUrl,
+        method: 'GET',
+        data: {},
+        success: (data) => {
+            if (data.published) {
+                // unpublish
+                const newText = 'Publish';
+                updateText(this_, newText);
+            } else {
+                // publish
+                const newText = 'Unpublish';
+                updateText(this_, newText);
+            }
+        }, error: (data) => {
+            console.log(error);
+            console.log('error');
+        },
+    });
+});
+{% endblock jquery %}
+</script>

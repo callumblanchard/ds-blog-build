@@ -26,6 +26,11 @@ class BlogPost(models.Model):
             'slug': self.slug,
         })
 
+    def get_publish_url(self):
+        return reverse('blogPosts:publish', kwargs={
+            'slug': self.slug,
+        })
+
 
 class Comment(models.Model):
     post = models.ForeignKey('blogPosts.BlogPost', on_delete=models.CASCADE, related_name='comments')

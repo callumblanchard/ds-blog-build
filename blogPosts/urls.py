@@ -8,6 +8,7 @@ from .views import (
     PostDeleteView,
     CommentCreateView,
     PostPreviewView,
+    PostPublishAPIToggle,
 )
 
 app_name = "blogPosts"
@@ -17,6 +18,7 @@ urlpatterns = [
     path('<slug:slug>/preview/', PostPreviewView.as_view(), name='post-preview'),
     path('<slug:slug>/', PostDetailView.as_view(), name='post-detail'),
     path('<slug:slug>/comment/', CommentCreateView.as_view(), name='add-comment'),
+    path('api/<slug:slug>/publish/', PostPublishAPIToggle.as_view(), name='publish'),
     path('<slug:slug>/update/', PostUpdateView.as_view(), name='post-update'),
     path('<slug:slug>/delete/', PostDeleteView.as_view(), name='post-delete'),
 ]
