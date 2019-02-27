@@ -179,10 +179,12 @@ class PostPublishAPIToggle(APIView):
                 published = False
             else:
                 published = True
+                BlogPost.objects.filter(slug=slug).update(pub_date=timezone.now())
             BlogPost.objects.filter(slug=slug).update(is_published=published)
             updated = True
         data = {
             "updated": updated,
-            "published": published
+            "published": published,
+            "datePosted": timezone.now().strftime("%d %B, %Y"),
         }
         return Response(data)

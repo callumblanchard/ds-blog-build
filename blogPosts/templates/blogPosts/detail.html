@@ -5,19 +5,17 @@
         <img class="rounded-circle article-img" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.username }} profile image">
         <div class="media-body">
             <div class="article-metadata">
-                <small class="text-muted">Posted By {{ post.author }} on {{ post.pub_date|date:"d F, Y" }}</small>
+                <small class="text-muted">Posted By {{ post.author }} on <span id="date-published">{{ post.pub_date|date:"d F, Y" }}</span></small>
                 {% if post.author == user %}
-                    <a id="btn-publish" 
+                    <button id="btn-publish" 
                         class="btn btn-outline-info btn-sm mt-1 mb-1 ml-4"
-                        data-href="{{ post.get_publish_url }}"
-                        data-published="{{ post.is_published }}"
-                        href="{% url 'blogPosts:post-update' post.slug %}">
+                        data-published="{{ post.is_published }}">
                         {% if post.is_published %}
                             Unpublish
                         {% else %}
                             Publish
                         {% endif %}
-                    </a>
+                    </button>
                     <a class="btn btn-outline-secondary btn-sm mt-1 mb-1 ml-4" href="{% url 'blogPosts:post-update' post.slug %}">Update</a>
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blogPosts:post-delete' post.slug %}">Delete</a>
                 {% endif %}
@@ -46,25 +44,23 @@ function updateText(btn, newText) {
     btn.text(newText);
 }
 
-$('#btn-publish').on('click', (e) => {
-    e.preventDefault();
-    const this_ = $(this);
-    const likeUrl = this_.attr('data-href');
-    console.log(this_);
+$('#btn-publish').on('click', () => {
     $.ajax({
-        url: likeUrl,
+        url: '{{ post.get_publish_url }}',
         method: 'GET',
         data: {},
         success: (data) => {
+            console.log(data)
+            let newText = '';
             if (data.published) {
                 // unpublish
-                const newText = 'Publish';
-                updateText(this_, newText);
+                newText = 'Unpublish';
+                updateText($('#date-published'), data.datePosted);
             } else {
                 // publish
-                const newText = 'Unpublish';
-                updateText(this_, newText);
+                newText = 'Publish';
             }
+            updateText($('#btn-publish'), newText);
         }, error: (data) => {
             console.log(error);
             console.log('error');
